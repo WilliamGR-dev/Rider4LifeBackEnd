@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
+class NewsController extends Controller
+{
+    //
+
+    public function create(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'picture' => 'required',
+        ]);
+
+        $picture = Cloudinary::upload('data:image/png;base64,'.$request->picture);
+
+        DB::table('news')->insert([
+            'title' => $request->title,
+            'description' => $request->description,
+            'picture' => $picture->getSecurePath(),
+            'picture_id' => $picture->getPublicId(),
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $news = DB::table('news')->where('id', DB::getPdo()->lastInsertId())->first();
+
+
+        return response()->json([
+            $news
+        ], 201);
+    }
+
+    public function getAllNews()
+    {
+        $news = DB::table('news')->get();
+
+        return response()->json([
+            $news
+        ], 200);
+    }
+
+    public function getNewsByUserId($id)
+    {
+        $news = DB::table('news')->where('user_id', $id)->get();
+
+        return response()->json([
+            $news
+        ], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        if (DB::table('news')->where('id', $id)->where('user_id', auth()->user()->id)->first()){
+
+            $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+                'picture' => 'required',
+            ]);
+
+
+            DB::table('news')->where('id', $id)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
+
+            $news = DB::table('news')->where('id', $id)->first();
+
+            return response()->json([
+                $news
+            ], 200);
+        }else{
+            return response()->json([
+                "message"=> "accès interdit."
+            ], 401);
+        }
+    }
+
+    public function delete($id)
+    {
+        $news= DB::table('news')->where('id', $id)->where('user_id', auth()->user()->id)->first();
+        if ($news) {
+            cloudinary()->destroy($news->picture_id);
+            DB::table('news')->delete($id);
+
+            return response()->json([
+            ], 204);
+        }
+        else{
+            return response()->json([
+                "message"=> "accès interdit."
+            ], 401);
+        }
+    }
+}
