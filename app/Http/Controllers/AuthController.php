@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\Register,
 
 class AuthController extends Controller
 {
@@ -30,7 +31,7 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('token')->plainTextToken;
-        Mail::to($request->email)->send(new \App\Mail\register($user));
+        Mail::to($request->email)->send(new Register($user));
         $user->update(['remember_token' => $token]);
         return response()->json([
             "token" => $token,
