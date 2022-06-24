@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Register;
@@ -81,27 +82,18 @@ class AuthController extends Controller
             'lastname' => 'required',
         ]);
 
+        $user = Auth::user();
+
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->username = $request->username;
+        $user->email = $request->email;
         if($request->profile_picture){
-
             $picture = Cloudinary::upload('data:image/png;base64,'.$request->profile_picture);
-
-            $user = User::update([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'username' => $request->username,
-                'email' => $request->email,
-                'profile_picture' => $picture->getSecurePath(),
-                'profile_picture_id' => $picture->getPublicId(),
-            ]);
+            $user->profile_picture = $picture->getSecurePath();
+            $user->profile_picture_id = $picture->getPublicId();
         }
-        else{
-            $user = User::update([
-                'firstname' => $request->firstname,
-                'lastname' => $request->lastname,
-                'username' => $request->username,
-                'email' => $request->email,
-            ]);
-        }
+        $user->save();
 
 
         return response()->json([
