@@ -13,7 +13,6 @@ class NewsController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'title' => 'required',
             'description' => 'required',
             'picture' => 'required',
         ]);
@@ -21,7 +20,6 @@ class NewsController extends Controller
         $picture = Cloudinary::upload('data:image/png;base64,'.$request->picture);
 
         DB::table('news')->insert([
-            'title' => $request->title,
             'description' => $request->description,
             'picture' => $picture->getSecurePath(),
             'picture_id' => $picture->getPublicId(),
@@ -59,14 +57,12 @@ class NewsController extends Controller
         if (DB::table('news')->where('id', $id)->where('user_id', auth()->user()->id)->first()){
 
             $request->validate([
-                'title' => 'required',
                 'description' => 'required',
                 'picture' => 'required',
             ]);
 
 
             DB::table('news')->where('id', $id)->update([
-                'title' => $request->title,
                 'description' => $request->description,
             ]);
 
