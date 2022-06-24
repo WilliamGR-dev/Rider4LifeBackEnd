@@ -95,8 +95,12 @@ class AuthController extends Controller
         }
         $user->save();
 
+        $user->tokens()->where('tokenable_id', $user->id)->delete();
+        $token = $user->createToken('web-token')->plainTextToken;
+
 
         return response()->json([
+            "token" => $token,
             "firstname" => $user->firstname,
             "lastname" => $user->lastname,
             "username" => $user->username,
@@ -108,16 +112,13 @@ class AuthController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'username' => 'required',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'profile_picture' => 'required',
+            'password' => 'required',
         ]);
 
-        $user = User::update([
-            'password' => $request->password,
-        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->save();
 
         return response()->json([
             "firstname" => $user->firstname,

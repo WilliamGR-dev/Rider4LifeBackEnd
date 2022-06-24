@@ -38,9 +38,9 @@ class NewsController extends Controller
     {
         $news = DB::table('news')->get();
 
-        return response()->json([
+        return response()->json(
             $news
-        ], 200);
+        , 200);
     }
 
     public function getNewsByUserId($id)
