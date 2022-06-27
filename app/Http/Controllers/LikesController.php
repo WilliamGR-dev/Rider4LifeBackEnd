@@ -34,18 +34,8 @@ class LikesController extends Controller
     }
     public function delete($id)
     {
-        $likes= DB::table('likes')->where('id', $id)->where('user_id', auth()->user()->id)->first();
-        if ($likes) {
-
-            DB::table('news')->delete($id);
-
-            return response()->json([
-            ], 204);
-        }
-        else{
-            return response()->json([
-                "message"=> "accès interdit."
-            ], 401);
-        }
+        $likes = DB::table('likes')->where('id', $id)->first();
+        return response()->json([
+        ], 204);
     }
 }
