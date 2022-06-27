@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('profile_picture')->nullable();
             $table->text('profile_picture_id')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
