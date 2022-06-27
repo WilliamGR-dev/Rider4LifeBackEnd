@@ -31,9 +31,7 @@ class CommentsController extends Controller
     {
         $news = DB::table('comments')->where('news_id', $id)->get();
 
-        return response()->json([
-            $news
-        ], 200);
+        return response()->json($news, 200);
     }
     public function delete($id)
     {
