@@ -41,7 +41,7 @@ class NewsController extends Controller
 
         foreach ($news as $new){
             $likes = DB::table('likes')->count();
-            $author = DB::table('user')->where('id', $new->user_id)->first();
+            $author = DB::table('users')->where('id', $new->user_id)->first();
             $new->likes = $likes;
             $new->author = $author;
         }
