@@ -40,8 +40,8 @@ class NewsController extends Controller
         $news = DB::table('news')->get();
 
         foreach ($news as $new){
-            $likes = DB::table('likes')->get();
-            $new->likes = $likes.count();
+            $likes = DB::table('likes')->count();
+            $new->likes = $likes;
         }
 
         return response()->json(
