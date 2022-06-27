@@ -31,6 +31,10 @@ class CommentsController extends Controller
     {
         $news = DB::table('comments')->where('news_id', $id)->get();
 
+        foreach ($news as $new){
+            $author = DB::table('users')->where('id', $new->user_id)->first();
+            $news->author = $author;
+        }
         return response()->json($news, 200);
     }
     public function delete($id)
