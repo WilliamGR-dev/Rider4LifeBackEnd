@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\recoveryPassword;
 use App\Models\User;
 use Carbon\Carbon;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Register;
@@ -120,6 +122,30 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->password = Hash::make($request->password);
         $user->save();
+
+        return response()->json([
+            "firstname" => $user->firstname,
+            "lastname" => $user->lastname,
+            "username" => $user->username,
+            "email" => $user->email,
+            'profile_picture' => $user->profile_picture,
+            'profile_picture_id' => $user->profile_picture,
+        ], 200);
+    }
+
+    public function recoveryPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+        ]);
+
+
+        $user = DB::table('users')->where('email', $request->email)->first();
+        $user->password = Hash::make('1234');
+        $user->save();
+
+
+        Mail::to($request->email)->send(new recoveryPassword($user));
 
         return response()->json([
             "firstname" => $user->firstname,
