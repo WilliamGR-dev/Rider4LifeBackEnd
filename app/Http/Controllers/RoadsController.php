@@ -38,7 +38,7 @@ class RoadsController extends Controller
         $roads = DB::table('roads')->get();
 
         foreach ($roads as $road){
-            $road->routes = json_decode($roads->routes);
+            $road->routes = json_decode($road->routes);
         }
         return response()->json($roads, 200);
     }
