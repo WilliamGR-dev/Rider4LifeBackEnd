@@ -57,6 +57,12 @@ class NewsController extends Controller
     {
         $news = DB::table('news')->where('user_id', $id)->get();
 
+        $author = DB::table('users')->where('id', $id)->first();
+
+        $likes = DB::table('likes')->where('user_id', $id)->count();
+
+        $news->author = $author;
+        $news->likes = $likes;
         return response()->json($news, 200);
     }
 
