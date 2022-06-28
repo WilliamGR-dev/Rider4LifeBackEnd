@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('short_description', '10');
+            $table->string('short_description');
             $table->json('routes');
             $table->integer('user_id');
             $table->timestamps();

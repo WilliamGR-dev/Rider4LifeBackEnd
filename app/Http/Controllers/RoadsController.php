@@ -21,8 +21,8 @@ class RoadsController extends Controller
         DB::table('roads')->insert([
             'title' => $request->title,
             'description' => $request->description,
-            'short_description' => $request->descrishort_descriptionption,
-            'roads' => json_encode($request->roads),
+            'short_description' => $request->short_description,
+            'routes' => json_encode($request->roads),
             'user_id' => auth()->user()->id,
         ]);
 
