@@ -23,6 +23,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->patch('/profile', [AuthController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->patch('/password', [AuthController::class, 'updatePassword']);
 
 Route::middleware('auth:sanctum')->post('/news', [NewsController::class, 'create']);
 Route::middleware('auth:sanctum')->get('/news', [NewsController::class, 'getAllNews']);

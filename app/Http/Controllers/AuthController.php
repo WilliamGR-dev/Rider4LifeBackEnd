@@ -109,6 +109,7 @@ class AuthController extends Controller
             'profile_picture_id' => $user->profile_picture,
         ], 200);
     }
+
     public function updatePassword(Request $request)
     {
         $request->validate([
