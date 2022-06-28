@@ -42,11 +42,28 @@ class NewsController extends Controller
         foreach ($news as $new){
             $likes = DB::table('likes')->count();
             $author = DB::table('users')->where('id', $new->user_id)->first();
-            $liked = DB::table('likes')->where('id', $new->user_id)->first();
+            $liked = DB::table('likes')->where('id', auth()->user()->id)->first();
             $new->likes = $likes;
             $new->liked = $liked;
             $new->author = $author;
         }
+
+        return response()->json(
+            $news
+        , 200);
+    }
+
+    public function getNews($id)
+    {
+
+        $news = DB::table('news')->where('id', $id)->first();
+
+        $likes = DB::table('likes')->count();
+        $author = DB::table('users')->where('id', $news->user_id)->first();
+        $liked = DB::table('likes')->where('id', auth()->user()->id)->first();
+        $news->likes = $likes;
+        $news->liked = $liked;
+        $news->author = $author;
 
         return response()->json(
             $news

@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->patch('/profile', [AuthController::class, 'up
 
 Route::middleware('auth:sanctum')->post('/news', [NewsController::class, 'create']);
 Route::middleware('auth:sanctum')->get('/news', [NewsController::class, 'getAllNews']);
+Route::middleware('auth:sanctum')->get('/news/{id}', [NewsController::class, 'getNews']);
 Route::middleware('auth:sanctum')->get('/news/user/{id}', [NewsController::class, 'getNewsByUserId']);
 Route::middleware('auth:sanctum')->put('/news/{id}', [NewsController::class, 'update']);
 Route::middleware('auth:sanctum')->delete('/news/{id}', [NewsController::class, 'delete']);
