@@ -45,7 +45,11 @@ class RoadsController extends Controller
     public function getRoad($id)
     {
         $road = DB::table('roads')->where('id', $id)->first();
+        $joined = DB::table('roads_members')->where('user_id', auth()->user()->id)->first();
+        $author = DB::table('users')->where('user_id', $road->user_id)->first();
 
+        $road->joined = $joined;
+        $road->author = $author;
         return response()->json($road, 200);
     }
     public function joinRoad($id)
@@ -63,9 +67,9 @@ class RoadsController extends Controller
     {
         $roads_members = DB::table('roads_members')->where('id', $id)->get();
 
-        return response()->json([
+        return response()->json(
             $roads_members
-        ], 200);
+        , 200);
     }
     public function quitRoad($id)
     {
