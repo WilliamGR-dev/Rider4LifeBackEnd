@@ -22,7 +22,7 @@ class RoadsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'short_description' => $request->descrishort_descriptionption,
-            'roads' => $request->roads,
+            'roads' => json_encode($request->roads),
             'user_id' => auth()->user()->id,
         ]);
 
