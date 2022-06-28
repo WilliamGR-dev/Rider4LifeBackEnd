@@ -57,9 +57,7 @@ class NewsController extends Controller
     {
         $news = DB::table('news')->where('user_id', $id)->get();
 
-        return response()->json([
-            $news
-        ], 200);
+        return response()->json($news, 200);
     }
 
     public function update(Request $request, $id)
