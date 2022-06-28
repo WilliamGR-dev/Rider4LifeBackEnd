@@ -56,6 +56,7 @@ class NewsController extends Controller
     public function getNewsByUserId($id)
     {
         $news = DB::table('news')->where('user_id', $id)->get();
+        $publications = DB::table('news')->where('user_id', $id)->count();
 
         $author = DB::table('users')->where('id', $id)->first();
 
@@ -65,6 +66,7 @@ class NewsController extends Controller
         $data->results = $news;
         $data->author = $author;
         $data->likes = $likes;
+        $data->publications = $publications;
 
         return response()->json($data, 200);
     }
