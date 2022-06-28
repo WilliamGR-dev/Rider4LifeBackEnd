@@ -44,11 +44,9 @@ class RoadsController extends Controller
     }
     public function getRoad($id)
     {
-        $news = DB::table('roads')->where('id', $id)->get();
+        $road = DB::table('roads')->where('id', $id)->first();
 
-        return response()->json([
-            $news
-        ], 200);
+        return response()->json($road, 200);
     }
     public function joinRoad($id)
     {
