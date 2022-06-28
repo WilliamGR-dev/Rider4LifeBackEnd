@@ -66,9 +66,7 @@ class NewsController extends Controller
         $data->author = $author;
         $data->likes = $likes;
 
-        $myJson = json_encode($data);
-
-        return response()->json($myJson, 200);
+        return response()->json($data, 200);
     }
 
     public function update(Request $request, $id)
