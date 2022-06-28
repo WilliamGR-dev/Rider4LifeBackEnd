@@ -29,13 +29,13 @@ class CommentsController extends Controller
     }
     public function getCommentsByNewsId($id)
     {
-        $news = DB::table('comments')->where('news_id', $id)->get();
+        $comments = DB::table('comments')->where('news_id', $id)->get();
 
-        foreach ($news as $new){
-            $author = DB::table('users')->where('id', $new->user_id)->first();
-            $news->author = $author;
+        foreach ($comments as $comment){
+            $author = DB::table('users')->where('id', $comment->user_id)->first();
+            $comment->author = $author;
         }
-        return response()->json($news, 200);
+        return response()->json($comments, 200);
     }
     public function delete($id)
     {
