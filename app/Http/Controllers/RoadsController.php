@@ -46,10 +46,12 @@ class RoadsController extends Controller
     {
         $road = DB::table('roads')->where('id', $id)->first();
         $joined = DB::table('roads_members')->where('user_id', auth()->user()->id)->first();
-        $author = DB::table('users')->where('user_id', $road->user_id)->first();
+        $author = DB::table('users')->where('id', $road->user_id)->first();
 
         $road->joined = $joined;
         $road->author = $author;
+        $road->distance = rand(1, 25);
+        $road->location = 'Paris';
         return response()->json($road, 200);
     }
     public function joinRoad($id)
