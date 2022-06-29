@@ -39,6 +39,8 @@ class RoadsController extends Controller
 
         foreach ($roads as $road){
             $road->routes = json_decode($road->routes);
+            $road->distance = rand(1, 25);
+            $road->location = 'Paris';
         }
         return response()->json($roads, 200);
     }
