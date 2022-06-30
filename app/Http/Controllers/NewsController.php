@@ -58,7 +58,7 @@ class NewsController extends Controller
 
         $news = DB::table('news')->where('id', $id)->first();
 
-        $likes = DB::table('likes')->count();
+        $likes = DB::table('likes')->where('news_id', $id)->count();
         $author = DB::table('users')->where('id', $news->user_id)->first();
         $liked = DB::table('likes')->where('id', auth()->user()->id)->first();
         $news->likes = $likes;
