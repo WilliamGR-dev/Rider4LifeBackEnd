@@ -35,7 +35,7 @@ class RoadsController extends Controller
     }
     public function getAllRoads()
     {
-        $roads = DB::table('roads')->get();
+        $roads = DB::table('roads')->orderBy('id', 'desc')->get();
 
         foreach ($roads as $road){
             $road->routes = json_decode($road->routes);

@@ -29,7 +29,7 @@ class CommentsController extends Controller
     }
     public function getCommentsByNewsId($id)
     {
-        $comments = DB::table('comments')->where('news_id', $id)->get();
+        $comments = DB::table('comments')->where('news_id', $id)->orderBy('id', 'desc')->get();
 
         foreach ($comments as $comment){
             $author = DB::table('users')->where('id', $comment->user_id)->first();

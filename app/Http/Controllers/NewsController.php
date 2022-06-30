@@ -37,7 +37,7 @@ class NewsController extends Controller
     public function getAllNews()
     {
 
-        $news = DB::table('news')->get();
+        $news = DB::table('news')->orderBy('id', 'desc')->get();
 
         foreach ($news as $new){
             $likes = DB::table('likes')->count();
